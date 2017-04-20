@@ -53,6 +53,14 @@ public class Produtor extends BaseEntity {
         this.dataCadastro = dataCadastro;
     }
 
+    public Set<Propriedade> getPropriedades() {
+        return propriedades;
+    }
+
+    public void setPropriedades(Set<Propriedade> propriedades) {
+        this.propriedades = propriedades;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
