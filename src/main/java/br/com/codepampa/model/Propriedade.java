@@ -32,11 +32,11 @@ public class Propriedade extends BaseEntity {
         this.latitude = latitude;
     }
 
-    private String getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    private void setLongitude(String longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 

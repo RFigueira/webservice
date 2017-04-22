@@ -19,7 +19,7 @@ import java.util.List;
 @Path("/api")
 public class ProdutorResource {
 
-    ProdutorService produtorService;
+    private ProdutorService produtorService;
 
     @PostConstruct
     public void init(){
