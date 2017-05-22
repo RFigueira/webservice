@@ -27,7 +27,7 @@ public class PropriedadeResource {
    private PropriedadeService propriedadeService;
 
     @PostConstruct
-    public void init(){
+    private void init(){
         propriedadeService = new PropriedadeService();
     }
 

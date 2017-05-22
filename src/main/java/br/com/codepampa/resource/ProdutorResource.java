@@ -22,7 +22,7 @@ public class ProdutorResource {
     private ProdutorService produtorService;
 
     @PostConstruct
-    public void init(){
+    private void init(){
         produtorService = new ProdutorService();
     }
 
