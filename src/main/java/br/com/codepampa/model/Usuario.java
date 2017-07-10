@@ -18,6 +18,9 @@ public class Usuario extends BaseEntity {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "senha")
+    private String senha;
+
     public String getNome() {
         return nome;
     }
@@ -40,5 +43,13 @@ public class Usuario extends BaseEntity {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

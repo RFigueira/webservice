@@ -2,7 +2,12 @@ package br.com.codepampa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Propriedade extends BaseEntity {
@@ -15,6 +20,14 @@ public class Propriedade extends BaseEntity {
 
     @Column(name = "longitude", length = 80)
     private String longitude;
+
+
+    @ManyToMany
+    @JoinTable(name = "propriedade_produto", joinColumns =
+            {@JoinColumn(name = "propriedade_fk")}, inverseJoinColumns =
+            {@JoinColumn(name = "produto_fk")})
+    private Set<Produto> produtos = new HashSet<>();
+
 
     public String getNome() {
         return nome;
@@ -38,6 +51,14 @@ public class Propriedade extends BaseEntity {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public Set<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(Set<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     @Override
