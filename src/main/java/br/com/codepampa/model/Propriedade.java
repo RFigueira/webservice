@@ -1,7 +1,9 @@
 package br.com.codepampa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -71,11 +73,12 @@ public class Propriedade extends BaseEntity {
         }
         Propriedade that = (Propriedade) o;
         return Objects.equals(this.latitude, that.getLatitude()) &&
-                Objects.equals(this.longitude, that.getLongitude());
+                Objects.equals(this.longitude, that.getLongitude()) &&
+                Objects.equals(this.produtos, that.getProdutos());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(latitude, longitude);
+        return Objects.hash(latitude, longitude, produtos);
     }
 }

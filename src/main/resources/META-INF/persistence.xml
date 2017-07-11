@@ -5,6 +5,8 @@
     <persistence-unit name="br.com.codepampa_webservicePU" transaction-type="RESOURCE_LOCAL">
     <class>br.com.codepampa.model.Produtor</class>
     <class>br.com.codepampa.model.Propriedade</class>
+    <class>br.com.codepampa.model.Usuario</class>
+    <class>br.com.codepampa.model.Produto</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/webservice"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
