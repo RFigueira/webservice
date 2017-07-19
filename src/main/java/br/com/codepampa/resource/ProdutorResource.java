@@ -2,6 +2,8 @@ package br.com.codepampa.resource;
 
 import br.com.codepampa.model.Produtor;
 import br.com.codepampa.service.ProdutorService;
+import br.com.codepampa.service.UsuarioService;
+import br.com.codepampa.util.Token;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -13,56 +15,75 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
-@Path("/api")
+
+@Path("/api/produtor")
 public class ProdutorResource {
 
     private ProdutorService produtorService;
+    private Token token;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         produtorService = new ProdutorService();
+        token = new Token(new UsuarioService());
     }
 
     @GET
-    @Path("/produtor")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Produtor> helloWord() {
-        return produtorService.findAll();
+    public Response findAll(@Context HttpHeaders headers) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(produtorService.findAll()).build();
     }
 
     @GET
-    @Path("/produtor/{pk}")
+    @Path("/{pk}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Produtor findByPk(@DefaultValue("0") @PathParam("pk") Long pk) {
-        return produtorService.findByPk(pk);
+    public Response findByPk(@Context HttpHeaders headers, @DefaultValue("0") @PathParam("pk") Long pk) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(produtorService.findByPk(pk)).build();
     }
 
     @POST
-    @Path("/produtor")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Produtor save(Produtor produtor) {
-       return produtorService.save(produtor);
+    public Response save(@Context HttpHeaders headers, Produtor produtor) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(produtorService.save(produtor)).build();
     }
 
     @PUT
-    @Path("/produtor/{pk}")
+    @Path("/{pk}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Produtor editar(Produtor produtor) {
-        return produtorService.save(produtor);
+    public Response editar(@Context HttpHeaders headers, Produtor produtor) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(produtorService.save(produtor)).build();
     }
 
     @DELETE
-    @Path("/produtor/{pk}")
+    @Path("/{pk}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void excluir(@DefaultValue("0") @PathParam("pk") Long pk) {
-      if(pk > 0){
-        produtorService.removeByPk(pk);
-      }
+    public Response excluir(@Context HttpHeaders headers, @DefaultValue("0") @PathParam("pk") Long pk) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if (pk > 0) {
+            produtorService.removeByPk(pk);
+        }
+        return Response.ok().build();
     }
 
 }

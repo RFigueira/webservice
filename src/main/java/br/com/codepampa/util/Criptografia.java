@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by rfreitas on 19/06/17.
  */
-public class Criptografia {
+public final class Criptografia {
 
     public static String generateHash(String string) throws NoSuchAlgorithmException {
 

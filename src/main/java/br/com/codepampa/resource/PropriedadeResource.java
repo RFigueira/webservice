@@ -2,6 +2,8 @@ package br.com.codepampa.resource;
 
 import br.com.codepampa.model.Propriedade;
 import br.com.codepampa.service.PropriedadeService;
+import br.com.codepampa.service.UsuarioService;
+import br.com.codepampa.util.Token;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -13,59 +15,75 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
-//Nesse arquivo, foi utilizado o caminho do recurso [URI] no path da classe
-//Os metodos que nao tem @Path anotados, ele coloca por Default o caminho da classe
-//Chamando o metodo referente aquele tipo de request
-// - Guris, se nao entenderem me chamem eu explico na aula :)
 
 @Path("/api/propriedade")
 public class PropriedadeResource {
 
-   private PropriedadeService propriedadeService;
+    private PropriedadeService propriedadeService;
+    private Token token;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         propriedadeService = new PropriedadeService();
+        token = new Token(new UsuarioService());
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Propriedade> helloWord() {
-        return propriedadeService.findAll();
+    public Response findAll(@Context HttpHeaders headers) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(propriedadeService.findAll()).build();
     }
 
     @GET
     @Path("/{pk}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Propriedade findByPk(@DefaultValue("0") @PathParam("pk") Long pk) {
-        return propriedadeService.findByPk(pk);
+    public Response findByPk(@Context HttpHeaders headers, @DefaultValue("0") @PathParam("pk") Long pk) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(propriedadeService.findByPk(pk)).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Propriedade save(Propriedade propriedade) {
-       return propriedadeService.save(propriedade);
+    public Response save(@Context HttpHeaders headers, Propriedade propriedade) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(propriedadeService.save(propriedade)).build();
     }
 
     @PUT
     @Path("/{pk}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Propriedade editar(Propriedade propriedade) {
-        return propriedadeService.save(propriedade);
+    public Response editar(@Context HttpHeaders headers, Propriedade propriedade) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok(propriedadeService.save(propriedade)).build();
     }
 
     @DELETE
     @Path("/{pk}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void excluir(@DefaultValue("0") @PathParam("pk") Long pk) {
-      if(pk > 0){
-          propriedadeService.removeByPk(pk);
-      }
+    public Response excluir(@Context HttpHeaders headers, @DefaultValue("0") @PathParam("pk") Long pk) {
+        if (token.filtro(headers)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if (pk > 0) {
+            propriedadeService.removeByPk(pk);
+        }
+        return Response.ok().build();
     }
 
 }
