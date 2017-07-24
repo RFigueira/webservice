@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * Created by rfreitas on 18/07/17.
  */
 @Path("/api/login")
-public class Login {
+public class LoginResource {
 
     private UsuarioService usuarioService;
 
