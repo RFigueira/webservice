@@ -8,7 +8,6 @@ import br.com.codepampa.util.Token;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
